@@ -11,7 +11,7 @@ module WeatherApi
     end
 
     def call
-      return nil if api_key.blank?
+      return nil unless api_key.present?
 
       response = fetch_weather
       return nil unless response.is_a?(Net::HTTPSuccess)
@@ -40,10 +40,38 @@ module WeatherApi
       data = JSON.parse(body)
 
       {
-        temperature_c: data.dig("current", "temp_c"),
-        sunrise: data.dig("forecast", "forecastday", 0, "astro", "sunrise"),
-        sunset: data.dig("forecast", "forecastday", 0, "astro", "sunset")
+        city: city(data),
+        temperature_c: temperature(data),
+        sunrise: sunrise(data),
+        sunset: sunset(data),
+        condition_text: condition_text(data),
+        condition_icon_url: condition_icon_url(data)
       }
+    end
+
+    def temperature(data)
+      data.dig("current", "temp_c")
+    end
+
+    def city(data)
+      data.dig("location", "name")
+    end
+
+    def sunrise(data)
+      data.dig("forecast", "forecastday", 0, "astro", "sunrise")
+    end
+
+    def sunset(data)
+      data.dig("forecast", "forecastday", 0, "astro", "sunset")
+    end
+
+    def condition_text(data)
+      data.dig("current", "condition", "text")
+    end
+
+    def condition_icon_url(data)
+      icon_path = data.dig("current", "condition", "icon")
+      icon_path.present? ? "https:#{icon_path}" : nil
     end
   end
 end

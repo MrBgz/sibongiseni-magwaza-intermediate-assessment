@@ -1,0 +1,14 @@
+<div class="card" data-controller="weather-location">
+  <h2>Weather</h2>
+
+  <p><em data-weather-location-target="locationLabel">Your location</em></p>
+  <p data-weather-location-target="status">Fetching weather...</p>
+
+  <div data-weather-location-target="weatherData" hidden>
+    <%= image_tag "", alt: "Weather icon", data: { weather_location_target: "icon" }, hidden: true %>
+    <p data-weather-location-target="condition" hidden></p>
+    <p>Temperature: <span data-weather-location-target="temperature"></span>°C</p>
+    <p>Sunrise: <span data-weather-location-target="sunrise"></span></p>
+    <p>Sunset: <span data-weather-location-target="sunset"></span></p>
+  </div>
+</div>

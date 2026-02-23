@@ -8,6 +8,11 @@ RSpec.describe WeatherApi::Client do
       ENV["WEATHER_API_KEY"] = "test_key"
 
       json_body = {
+        "location" => {
+          "name" => "Sandton",
+          "region" => "Gauteng",
+          "country" => "South Africa"
+        },
         "current" => { "temp_c" => 24.2 },
         "forecast" => {
           "forecastday" => [
@@ -23,9 +28,12 @@ RSpec.describe WeatherApi::Client do
       result = described_class.new(location: location).call
 
       expect(result).to eq(
+        city: "Sandton",
         temperature_c: 24.2,
         sunrise: "05:58 AM",
-        sunset: "06:44 PM"
+        sunset: "06:44 PM",
+        condition_text: nil,
+        condition_icon_url: nil
       )
     ensure
       ENV["WEATHER_API_KEY"] = api_key_before

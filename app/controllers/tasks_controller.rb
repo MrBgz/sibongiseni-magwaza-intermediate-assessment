@@ -5,8 +5,6 @@ class TasksController < ApplicationController
     @todo_tasks = Task.todo
     @completed_tasks = Task.completed
     @task = Task.new
-
-    @weather = WeatherApi::Client.new(location: "Sandton").call
   end
 
   def create
@@ -17,7 +15,7 @@ class TasksController < ApplicationController
     else
       @todo_tasks = Task.todo
       @completed_tasks = Task.completed
-      @weather = WeatherApi::Client.new(location: "Sandton").call
+
       render :index, status: :unprocessable_entity
     end
   end

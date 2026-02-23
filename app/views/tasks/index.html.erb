@@ -1,17 +1,6 @@
 <div class="container">
   <h1>Task Manager</h1>
-
-  <div class="card">
-    <h2>Weather</h2>
-
-    <% if @weather.present? %>
-      <p>Temperature: <%= @weather[:temperature_c] %>°C</p>
-      <p>Sunrise: <%= @weather[:sunrise] %></p>
-      <p>Sunset: <%= @weather[:sunset] %></p>
-    <% else %>
-      <p>Weather unavailable.</p>
-    <% end %>
-  </div>
+  <%= render "weather" %>
 
   <div class="card">
     <h2>Add Task</h2>

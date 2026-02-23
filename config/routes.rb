@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "tasks#index"
-
   resources :tasks
+  get "/weather", to: "weather#show"
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

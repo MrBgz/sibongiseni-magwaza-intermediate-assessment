@@ -1,37 +1,44 @@
-<div class="container">
+<div class="container" data-controller="task-modal" data-task-modal-open-value="<%= @task.errors.any? %>">
   <h1>Task Manager</h1>
   <%= render "weather" %>
 
-  <div class="card">
-    <h2>Add Task</h2>
+  <button type="button" class="floating-add-btn" data-action="task-modal#open" aria-label="Add task">+</button>
 
-    <% if @task.errors.any? %>
-      <div>
-        <p><strong>Please fix the following:</strong></p>
-        <ul>
-          <% @task.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <%= form_with model: @task, url: tasks_path, id: dom_id(@task) do |form| %>
-      <div>
-        <%= form.label :title %><br>
-        <%= form.text_field :title %>
+  <dialog class="task-modal" data-task-modal-target="dialog" data-action="click->task-modal#backdropClose">
+    <div class="task-modal-card">
+      <div class="task-modal-header">
+        <h2>Add Task</h2>
+        <button type="button" class="task-modal-close" data-action="task-modal#close" aria-label="Close">×</button>
       </div>
 
-      <div>
-        <%= form.label :description %><br>
-        <%= form.text_area :description %>
-      </div>
+      <% if @task.errors.any? %>
+        <div class="task-modal-errors">
+          <p><strong>Please fix the following:</strong></p>
+          <ul>
+            <% @task.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-      <div>
-        <%= form.submit "Create Task" %>
-      </div>
-    <% end %>
-  </div>
+      <%= form_with model: @task, url: tasks_path, id: dom_id(@task) do |form| %>
+        <div class="form-field">
+          <%= form.label :title %>
+          <%= form.text_field :title %>
+        </div>
+
+        <div class="form-field">
+          <%= form.label :description %>
+          <%= form.text_area :description %>
+        </div>
+
+        <div class="form-actions">
+          <%= form.submit "Create Task" %>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
 
   <div class="card">
     <h2>To Do</h2>

@@ -5,9 +5,10 @@ class TasksController < ApplicationController
     @todo_tasks = Task.todo
     @completed_tasks = Task.completed
     @task = Task.new
+
+    @weather = WeatherApi::Client.new(location: "Sandton").call
   end
 
-  # Create task
   def create
     @task = Task.new(task_params)
 
@@ -16,11 +17,11 @@ class TasksController < ApplicationController
     else
       @todo_tasks = Task.todo
       @completed_tasks = Task.completed
+      @weather = WeatherApi::Client.new(location: "Sandton").call
       render :index, status: :unprocessable_entity
     end
   end
 
-  # Change completed from false to true
   def update
     if @task.update(completed: true)
       redirect_to root_path
@@ -29,7 +30,6 @@ class TasksController < ApplicationController
     end
   end
 
-  # Delete
   def destroy
     @task.destroy
     redirect_to root_path

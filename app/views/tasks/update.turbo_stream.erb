@@ -1,0 +1,5 @@
+<%= turbo_stream.remove dom_id(@task) %>
+
+<%= turbo_stream.prepend "completed_tasks",
+      partial: "tasks/task",
+      locals: { task: @task } %>

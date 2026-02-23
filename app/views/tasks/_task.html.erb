@@ -1,13 +1,30 @@
-<li id="<%= dom_id(task) %>">
-  <strong><%= task.title %></strong>
-  <p><%= task.description %></p>
+<li id="<%= dom_id(task) %>" class="task-item <%= "task-item--completed" if task.completed? %>">
+  <div class="task-main">
+    <p class="task-time"><%= task.created_at.strftime("%H:%M") %></p>
+    <p class="task-title"><%= task.title %></p>
+    <% if task.description.present? %>
+      <p class="task-description"><%= task.description %></p>
+    <% end %>
+  </div>
 
-  <% unless task.completed? %>
-    <%= button_to "Mark completed", task_path(task), method: :patch %>
-  <% end %>
+  <div class="task-actions">
+    <% if task.completed? %>
+      <span class="task-complete-indicator" aria-hidden="true">✓</span>
+    <% else %>
+      <%= button_to "",
+            task_path(task),
+            method: :patch,
+            class: "task-complete-btn",
+            form: { class: "task-action-form" },
+            aria: { label: "Mark task as completed" } %>
+    <% end %>
 
-  <%= button_to "Delete",
-        task_path(task),
-        method: :delete,
-        form: { data: { turbo_confirm: "Delete this task?" } } %>
+    <%= button_to task_path(task),
+          method: :delete,
+          class: "task-delete-btn",
+          form: { class: "task-action-form", data: { turbo_confirm: "Delete this task?" } },
+          aria: { label: "Delete task" } do %>
+      <span class="task-delete-icon" aria-hidden="true">🗑</span>
+    <% end %>
+  </div>
 </li>

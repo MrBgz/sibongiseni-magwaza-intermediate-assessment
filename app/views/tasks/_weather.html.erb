@@ -1,14 +1,19 @@
-<div class="card" data-controller="weather-location">
-  <h2>Weather</h2>
+<div class="card weather-card" data-controller="weather-location">
+  <p class="weather-status" data-weather-location-target="status">Fetching weather...</p>
 
-  <p><em data-weather-location-target="locationLabel">Your location</em></p>
-  <p data-weather-location-target="status">Fetching weather...</p>
+  <div class="weather-content" data-weather-location-target="weatherData" hidden>
+    <div class="weather-top">
+      <%= image_tag "", alt: "Weather icon", class: "weather-icon", data: { weather_location_target: "icon" }, hidden: true %>
+      <div class="weather-summary">
+        <p class="weather-condition" data-weather-location-target="condition" hidden></p>
+        <p class="weather-temperature"><span data-weather-location-target="temperature"></span>°C</p>
+        <p class="weather-city"><em data-weather-location-target="locationLabel">Your location</em></p>
+      </div>
+    </div>
 
-  <div data-weather-location-target="weatherData" hidden>
-    <%= image_tag "", alt: "Weather icon", data: { weather_location_target: "icon" }, hidden: true %>
-    <p data-weather-location-target="condition" hidden></p>
-    <p>Temperature: <span data-weather-location-target="temperature"></span>°C</p>
-    <p>Sunrise: <span data-weather-location-target="sunrise"></span></p>
-    <p>Sunset: <span data-weather-location-target="sunset"></span></p>
+    <div class="weather-metrics">
+      <p>Sunrise <span data-weather-location-target="sunrise"></span></p>
+      <p>Sunset <span data-weather-location-target="sunset"></span></p>
+    </div>
   </div>
 </div>

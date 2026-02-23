@@ -1,0 +1,13 @@
+<li id="<%= dom_id(task) %>">
+  <strong><%= task.title %></strong>
+  <p><%= task.description %></p>
+
+  <% unless task.completed? %>
+    <%= button_to "Mark completed", task_path(task), method: :patch %>
+  <% end %>
+
+  <%= button_to "Delete",
+        task_path(task),
+        method: :delete,
+        form: { data: { turbo_confirm: "Delete this task?" } } %>
+</li>

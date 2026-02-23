@@ -1,56 +1,60 @@
-<h1>Task Manager</h1>
+<div class="container">
+  <h1>Task Manager</h1>
 
-<h2>Weather</h2>
+  <div class="card">
+    <h2>Weather</h2>
 
-<% if @weather.present? %>
-  <p>Temperature: <%= @weather[:temperature_c] %>°C</p>
-    <p>Sunrise: <%= @weather[:sunrise] %></p>
-    <p>Sunset: <%= @weather[:sunset] %></p>
-<% else %>
-  <p>Weather unavailable.</p>
-<% end %>
+    <% if @weather.present? %>
+      <p>Temperature: <%= @weather[:temperature_c] %>°C</p>
+      <p>Sunrise: <%= @weather[:sunrise] %></p>
+      <p>Sunset: <%= @weather[:sunset] %></p>
+    <% else %>
+      <p>Weather unavailable.</p>
+    <% end %>
+  </div>
 
-<hr>
+  <div class="card">
+    <h2>Add Task</h2>
 
-<h2>Add Task</h2>
+    <% if @task.errors.any? %>
+      <div>
+        <p><strong>Please fix the following:</strong></p>
+        <ul>
+          <% @task.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<% if @task.errors.any? %>
-  <div>
-    <p><strong>Please fix the following:</strong></p>
-    <ul>
-      <% @task.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+    <%= form_with model: @task, url: tasks_path, id: dom_id(@task) do |form| %>
+      <div>
+        <%= form.label :title %><br>
+        <%= form.text_field :title %>
+      </div>
+
+      <div>
+        <%= form.label :description %><br>
+        <%= form.text_area :description %>
+      </div>
+
+      <div>
+        <%= form.submit "Create Task" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="card">
+    <h2>To Do</h2>
+    <ul id="todo_tasks">
+      <%= render partial: "task", collection: @todo_tasks, as: :task %>
     </ul>
   </div>
-<% end %>
 
-<%= form_with model: @task, url: tasks_path, id: dom_id(@task) do |form| %>
-  <div>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
+  <div class="card">
+    <h2>Completed</h2>
+    <ul id="completed_tasks">
+      <%= render partial: "task", collection: @completed_tasks, as: :task %>
+    </ul>
   </div>
-
-  <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.submit "Create Task" %>
-  </div>
-<% end %>
-
-<hr>
-
-<h2>To Do</h2>
-
-<ul id="todo_tasks">
-  <%= render partial: "task", collection: @todo_tasks, as: :task %>
-</ul>
-
-<h2>Completed</h2>
-
-<ul id="completed_tasks">
-  <%= render partial: "task", collection: @completed_tasks, as: :task %>
-</ul>
+</div>

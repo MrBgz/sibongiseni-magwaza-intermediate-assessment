@@ -33,6 +33,10 @@ WEATHER_API_KEY=enter_api_key
 
 If `WEATHER_API_KEY` is not set up, the app still runs and shows "Weather unavailable."
 
+Weather location behavior:
+- The app first attempts to use the user's browser geolocation (latitude/longitude).
+- If location access is unavailable or denied, it falls back to `Johannesburg`.
+
 ## Setup
 
 1. Install dependencies:
@@ -90,6 +94,7 @@ bin/brakeman
 ## Application Routes
 
 - `GET /` -> task dashboard (`tasks#index`)
+- `GET /weather` -> weather endpoint (uses coordinates when provided, otherwise falls back to Johannesburg)
 - `POST /tasks` -> create task
 - `PATCH /tasks/:id` -> mark task as completed
 - `DELETE /tasks/:id` -> delete task
